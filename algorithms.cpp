@@ -36,6 +36,7 @@ int opt(int i, int j){
 int optDP() {
     // Create a 2D array to store computed values
     vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+    basicOps += 2;
 
     // Initialize the base cases
     for (int i = 0; i <= m; i++) {
