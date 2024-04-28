@@ -1,7 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 int m, n;
 char* x;
@@ -71,21 +74,35 @@ int optDP() {
 }
 
 
-
 int main(){
+    cout << fixed << setprecision(9);
+
     m = 6;
     n = 7;
 
     x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A'};
     y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'G'};
 
+    basicOps = 0;
+    auto start = high_resolution_clock::now(); // Start timing
     int result = opt(0, 0);
-
+    auto end = high_resolution_clock::now(); // Stop timing
+    auto elapsed = duration_cast<duration<double>>(end - start);
+ 
     cout << result;
+    cout << '\n' << basicOps;
+    cout << '\n' << elapsed.count();
 
+    basicOps = 0;
+    start = high_resolution_clock::now(); // Start timing
     result = optDP();
+    end = high_resolution_clock::now(); // Stop timing
+    elapsed = duration_cast<duration<double>>(end - start);
 
-    cout << result;
+
+    cout << '\n'<< result;
+    cout << '\n' << basicOps;
+    cout << '\n' << elapsed.count();
 
     delete[] x;
     delete[] y;
