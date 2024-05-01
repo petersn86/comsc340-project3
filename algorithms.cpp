@@ -9,39 +9,36 @@ using namespace std::chrono;
 int m, n;
 char* x;
 char* y;
-int basicOps;
+long basicOps;
 
-
-int opt(int i, int j){
-    if(i == m){
-        return 2 * (n  - j);
+int opt(int i, int j) {
+    basicOps += 2;
+    if (i == m) {
         basicOps += 4;
+        return 2 * (n - j);
     }
-    else if(j == n){
-        return 2 * (m - i);
+    else if (j == n) {
         basicOps += 5;
+        return 2 * (m - i);
     }
-    else{
+    else {
         int penalty;
-        if(x[i] == y[j]){
+        if (x[i] == y[j]) {
             penalty = 0;
             basicOps += 1;
         }
-        else{
+        else {
             penalty = 1;
         }
         basicOps += 10;
         return min({opt(i + 1, j + 1) + penalty, opt(i + 1, j) + 2, opt(i, j + 1) + 2});
     }
-
 }
 
 int optDP() {
-    // Create a 2D array to store computed values
     vector<vector<int>> dp(m + 1, vector<int>(n + 1));
     basicOps += 2;
 
-    // Initialize the base cases
     for (int i = 0; i <= m; i++) {
         dp[i][n] = 2 * (m - i);
         basicOps += 3;
@@ -51,15 +48,15 @@ int optDP() {
         basicOps += 3;
     }
 
-    // Bottom-up dynamic programming
     for (int i = m - 1; i >= 0; i--) {
         for (int j = n - 1; j >= 0; j--) {
             int penalty;
             basicOps += 2;
             if (x[i] == y[j]) {
                 penalty = 0;
-                basicOps ++;
-            } else {
+                basicOps++;
+            }
+            else {
                 penalty = 1;
             }
             basicOps += 10;
@@ -68,45 +65,138 @@ int optDP() {
         basicOps += 2;
     }
 
-    // Return the optimal alignment score
-    basicOps ++;
+    basicOps++;
     return dp[0][0];
 }
 
+int main() {
+    cout << fixed << setprecision(12);
 
-int main(){
-    cout << fixed << setprecision(9);
+    m = 5;
+    n = 5;
 
-    m = 6;
-    n = 7;
-
-    x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A'};
-    y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'G'};
+    x = new char[m] {'C', 'A', 'C', 'A', 'T'};
+    y = new char[n] {'C', 'A', 'G', 'C', 'T'};
 
     basicOps = 0;
-    auto start = high_resolution_clock::now(); // Start timing
+    auto start = high_resolution_clock::now();
     int result = opt(0, 0);
-    auto end = high_resolution_clock::now(); // Stop timing
+    auto end = high_resolution_clock::now();
     auto elapsed = duration_cast<duration<double>>(end - start);
  
-    cout << result;
-    cout << '\n' << basicOps;
-    cout << '\n' << elapsed.count();
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
 
     basicOps = 0;
-    start = high_resolution_clock::now(); // Start timing
+    start = high_resolution_clock::now();
     result = optDP();
-    end = high_resolution_clock::now(); // Stop timing
+    end = high_resolution_clock::now();
     elapsed = duration_cast<duration<double>>(end - start);
 
-
-    cout << '\n'<< result;
-    cout << '\n' << basicOps;
-    cout << '\n' << elapsed.count();
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
 
     delete[] x;
     delete[] y;
 
+    m = 10;
+    n = 10;
+
+    x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A', 'G', 'A', 'A', 'G'};
+    y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'T', 'A', 'A', 'T'};
+    
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = opt(0, 0);
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+ 
+    cout<< '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = optDP();
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+    
+    delete[] x;
+    delete[] y;
+    
+    
+    m = 12;
+    n = 12;
+
+    x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A', 'G', 'A', 'A', 'G', 'C', 'G'};
+    y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'T', 'A', 'A', 'T', 'C', 'G'};
+    
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = opt(0, 0);
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+ 
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = optDP();
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+    
+    delete[] x;
+    delete[] y;
+
+    m = 13;
+    n = 13;
+
+    x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A', 'G', 'A', 'A', 'G', 'C', 'G', 'C'};
+    y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'T', 'A', 'A', 'T', 'C', 'G', 'T'};
+    
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = opt(0, 0);
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+ 
+    cout<< '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = optDP();
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+    
+    delete[] x;
+    delete[] y;
+    
+    m = 14;
+    n = 14;
+
+    x = new char[m] {'C', 'A', 'C', 'A', 'T', 'A', 'G', 'A', 'A', 'G', 'C', 'G', 'C', 'A'};
+    y = new char[n] {'C', 'A', 'G', 'C', 'T', 'A', 'T', 'A', 'A', 'T', 'C', 'G', 'T', 'G'};
+    
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = opt(0, 0);
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+ 
+    cout<< '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+
+    basicOps = 0;
+    start = high_resolution_clock::now();
+    result = optDP();
+    end = high_resolution_clock::now();
+    elapsed = duration_cast<duration<double>>(end - start);
+
+    cout << '\n' << result << '\n' << basicOps << '\n' << elapsed.count();
+    
+    delete[] x;
+    delete[] y;
 
     return 0;
 }
